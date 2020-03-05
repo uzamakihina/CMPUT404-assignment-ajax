@@ -57,12 +57,21 @@ class ServerTestCase(unittest.TestCase):
         self.assertTrue(json.dumps(json.loads(utf8(r.data))) == json.dumps(json.loads('{}')), "Not empty? %s" % utf8(r.data))
         d = {'x':2, 'y':3}
         r = self.app.put(('/entity/%s' % v),data=json.dumps(d))
+
+        
+        
         self.assertTrue(r.status_code == 200, "PUT Code not 200!")
+        
         rd = json.loads(utf8(r.data))
+        
         for key in d:
             self.assertTrue(rd[key] == d[key], "KEY %s " % key)
+        
         r = self.app.get(('/entity/%s' % v))
+        
+        
         self.assertTrue(r.status_code == 200, "Code not 200!")
+       
         self.assertTrue(json.loads(utf8(r.data)) == d, "D != r.data")
 
         

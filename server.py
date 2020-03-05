@@ -20,12 +20,15 @@
 # remember to:
 #     pip install flask
 
-
+import time
 import flask
-from flask import Flask, request
+from flask import Flask, request, redirect, make_response, jsonify
 import json
 app = Flask(__name__)
-app.debug = True
+# app.debug = True
+
+
+import logging
 
 # An example world
 # {
@@ -33,8 +36,10 @@ app.debug = True
 #    'b':{'x':2, 'y':3}
 # }
 
+
 class World:
     def __init__(self):
+        self.space = {}
         self.clear()
         
     def update(self, entity, key, value):
@@ -67,6 +72,7 @@ def flask_post_json():
     if (request.json != None):
         return request.json
     elif (request.data != None and request.data.decode("utf8") != u''):
+
         return json.loads(request.data.decode("utf8"))
     else:
         return json.loads(request.form.keys()[0])
@@ -74,27 +80,50 @@ def flask_post_json():
 @app.route("/")
 def hello():
     '''Return something coherent here.. perhaps redirect to /static/index.html '''
-    return None
+
+    
+    return redirect("/static/index.html", code=301)
 
 @app.route("/entity/<entity>", methods=['POST','PUT'])
 def update(entity):
     '''update the entities via this interface'''
-    return None
+    
+    string = request.data.decode('utf-8')
+    
+    resp = json.loads(string)
+    myWorld.set(entity, resp)
+    res = make_response(resp, 200)
+   
+    
+    return res
 
 @app.route("/world", methods=['POST','GET'])    
 def world():
     '''you should probably return the world here'''
-    return None
+
+    res = make_response(myWorld.space, 200)
+    
+    
+    return res
+
+people = []
 
 @app.route("/entity/<entity>")    
-def get_entity(entity):
+def get_entity(entity, method=['GET']):
     '''This is the GET version of the entity interface, return a representation of the entity'''
-    return None
+    
+    temp = myWorld.get(entity)
+   
+    res = make_response(temp, 200)
+
+    return res
 
 @app.route("/clear", methods=['POST','GET'])
 def clear():
     '''Clear the world out!'''
-    return None
+    myWorld.space = {}
+    res = make_response(myWorld.space, 200)
+    return res
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host='0.0.0.0',use_reloader=True)
