@@ -89,7 +89,6 @@ def update(entity):
     '''update the entities via this interface'''
     
     string = request.data.decode('utf-8')
-    
     resp = json.loads(string)
     myWorld.set(entity, resp)
     res = make_response(resp, 200)

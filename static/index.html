@@ -23,8 +23,21 @@
     <script src="json2.js"></script>
   </head> 
   <body bgcolor="black" height="100%" width="100%"> 
+      <!-- <div style="float: left"> 
+    <h3 style="color:ghostwhite" >Choose your color</h3>
+   
+        <li style="color:green">Green</li>
+        <li style="color:yellow" >Yellow</li>
+        <li style="color:blue">Blue</li>
+        <li onClick='change()' style="color:red">red</li>
+        <li>Random !!!!</li>
+     </ul>
+    </div> -->
     <canvas id="c" width="100%" height="100%" style="-webkit-tap-highlight-color: transparent;"></canvas> 
+    
     <script>
+
+        
 world = {};
 const me = ""
 var canvas = document.getElementById('c');
@@ -114,7 +127,13 @@ function drawCircle(context,entity) {
         //moveTo(x,y);
         fillStyle = entity["colour"];
         strokeStyle = fillStyle;
-        arc(x, y, (entity["radius"])?entity["radius"]:50, 0, 2.0 * Math.PI, false);  
+        
+        arc(x, y, (entity["radius"])?entity["radius"]:10, 0, 2.0 * Math.PI, true); 
+        // arc(x, y, 1, 0, 2 * Math.PI, true); 
+        // context.strokeRect(5, 5, 50, 50);
+        // context.lineWidth = 5;
+        // context.strokeRect(135, 5, 50, 50);
+        context.fill()
         stroke();                                
     }
 }
@@ -123,9 +142,9 @@ function prepEntity(entity) {
     if (!entity["colour"]) {
         entity["colour"] = "#FF0000";
     }
-    if (!entity["radius"]) {
-        entity["radius"] = 50;
-    }
+    // if (!entity["radius"]) {
+    //     entity["radius"] = 25;
+    // }
     return entity;
 }
 
@@ -323,18 +342,18 @@ mouse = (function() {
 // Add the application specific mouse listeners!
 //XXX: TODO Make these prettier!
 mouse.mousedowners.push(function(x,y,clicked,e) {
-    addEntityWithoutName({'x':x,'y':y,'colour':'blue'});
+    addEntityWithoutName({'x':x,'y':y,'colour':'blue','radius':15});
 });
 
 mouse.mouseuppers.push(function(x,y,clicked,e) {
-    addEntityWithoutName({'x':x,'y':y,'colour':'red'});
+    addEntityWithoutName({'x':x,'y':y,'colour':'red',radius:5});
 
     
     // alert(JSON.stringify(world))
 });
 mouse.mousedraggers.push(function(x,y,clicked,e) {
-    addEntityWithoutName({'x':x,'y':y,'colour':'yellow',
-                          'radius':5});
+    addEntityWithoutName({'x':x,'y':y,'colour':'green',
+                          'radius':10});
 });
 
 
@@ -378,7 +397,7 @@ function update() {
 }
 
 // 30 frames per second
-setInterval( update, 1000/30.0);
+setInterval( update, 1000/80.0);
 
 
 

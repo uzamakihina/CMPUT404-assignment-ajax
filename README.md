@@ -1,4 +1,4 @@
-CMPUT404-assignment-ajax
+CMPUT404-assignment-ajax completed by Joe Xu
 ==============================
 
 CMPUT404-assignment-ajax
