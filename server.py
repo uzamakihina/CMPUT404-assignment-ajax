@@ -88,10 +88,20 @@ def hello():
 def update(entity):
     '''update the entities via this interface'''
     
+    # string = request.data.decode('utf-8')
+    # resp = json.loads(string)
+    # myWorld.set(entity, resp)
+    # res = make_response(resp, 200)
+
+   
+
+
     string = request.data.decode('utf-8')
     resp = json.loads(string)
+    
     myWorld.set(entity, resp)
-    res = make_response(resp, 200)
+    
+    res = make_response(resp ,200)
    
     
     return res
@@ -102,7 +112,7 @@ def world():
 
     res = make_response(myWorld.space, 200)
     
-    
+   
     return res
 
 people = []
@@ -114,6 +124,8 @@ def get_entity(entity, method=['GET']):
     temp = myWorld.get(entity)
    
     res = make_response(temp, 200)
+
+    
 
     return res
 
