@@ -104,15 +104,20 @@ xhr.send(JSON.stringify(objects));
 
 
 //XXX: TODO Make this prettier!
-function drawCircle(context,entity) {
+function drawCircle(context,entity,index) {
     with(context) {
-        beginPath();              
-        lineWidth = 3;
+        beginPath();  
+        lineCap ="round"
+        lineWidth = 1;
         var x = entity["x"];
         var y = entity["y"];
         //moveTo(x,y);
         fillStyle = entity["colour"];
         strokeStyle = fillStyle;
+        shadowOffsetX = 3
+        shadowOffsetY = 3
+        shadowBlur = 15
+        shadowColor ="#00CCFF"
         
         arc(x, y, (entity["radius"])?entity["radius"]:10, 0, 2.0 * Math.PI, true); 
         // arc(x, y, 1, 0, 2 * Math.PI, true); 
@@ -120,7 +125,23 @@ function drawCircle(context,entity) {
         // context.lineWidth = 5;
         // context.strokeRect(135, 5, 50, 50);
         context.fill()
-        stroke();                                
+        stroke();    
+
+        beginPath()
+        // lineWidth = 10;
+        // lineCap ="round"
+
+
+        // if(index == 0){
+        // lineTo(entity["x"],entity["y"] ) 
+        // stroke()  
+        // }        
+        // else{
+        // beginPath(); 
+        // moveTo(entity["x"],entity["y"])}
+        
+             
+                   
     }
 }
 
@@ -143,11 +164,14 @@ function clearFrame() {
 }
 
 // This actually draws the frame
+
+number = 1
 function renderFrame() {
     clearFrame();
     for (var key in world) {
         var entity = world[key];
-        drawCircle(context,prepEntity(entity));
+        
+        drawCircle(context,prepEntity(entity),(number+1)%2);
     }
 }
 
@@ -329,13 +353,13 @@ mouse.mousedowners.push(function(x,y,clicked,e) {
 });
 
 mouse.mouseuppers.push(function(x,y,clicked,e) {
-    addEntityWithoutName({'x':x,'y':y,'colour':'red',radius:10});
+    addEntityWithoutName({'x':x,'y':y,'colour':'blue',radius:10});
 
     
     // alert(JSON.stringify(world))
 });
 mouse.mousedraggers.push(function(x,y,clicked,e) {
-    addEntityWithoutName({'x':x,'y':y,'colour':'green',
+    addEntityWithoutName({'x':x,'y':y,'colour':'#87CEEB',
                           'radius':10});
 });
 
